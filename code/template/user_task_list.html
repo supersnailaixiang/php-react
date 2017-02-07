@@ -1,0 +1,572 @@
+{include file="header.html"}
+<script type="text/javascript">
+  var result = {$result};
+  var page = {$page};
+  var unaccept_task = {$unaccept_task};
+  
+   
+</script>
+<style>
+table td
+{
+  padding:5px;
+}
+
+
+ 
+.chg_task
+{
+  background:url("public/image/chg.png") no-repeat!important;
+  width:20px;
+  height:20px;
+}
+.resend_task
+{
+  background:url("public/image/submit.png") no-repeat!important;
+  width:20px;
+  height:20px;
+}
+.add_remark
+ {
+  width:20px;
+  height:20px;
+}
+.add_file{
+  width: 20px;
+  height: 20px;
+}
+.show_file{
+  width: 20px;
+  height: 20px;
+}
+
+#payment_list input, select
+{
+  width:80px;
+}
+
+</style>
+
+ 
+<script src="public/js/crm.js"></script>
+
+</head>
+ 
+<body> 
+  <div id="content"></div>
+   <script src="public/js/user_task_list.js"></script>
+   <link rel="stylesheet" href="public/css/crm.css" />
+  
+
+<div class="modal fade" id="task_accept_list" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+     <div class="modal-dialog"  >
+       <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+             接受
+            </h4>
+         </div>
+         <div class="modal-body" id="modal_div_list">
+          
+           <form id="task_accept_form">
+          
+             <input type="hidden" name="rec_id">
+             描述<textarea style="width:200px;height:150px"  name='remark'></textarea>
+               
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            
+            <button type="button"  class="btn  btn-primary" id="btn_accept"
+               >接受
+            </button>
+         </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="task_end_list" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+     <div class="modal-dialog"   >
+       <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+             完成
+            </h4>
+         </div>
+         <div class="modal-body" id="modal_div_list">
+          
+           <form id="task_end_form">
+             <input type='hidden' name='type'/>
+             <input type="hidden" name="rec_id">
+             <div id="show_seller_account">
+                升级独享卖家账号:<input type='text' name="seller_account" />
+                <hr/>
+
+            </div>
+
+             描述<textarea style="width:300px;height:150px" name='remark'></textarea>
+               
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            
+            <button type="button"  class="btn  btn-primary" id="btn_end"
+               >完成
+            </button>
+         </div>
+      </div>
+  </div>
+</div>
+ 
+ <div class="modal fade" id="task_reject_list" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+     <div class="modal-dialog"   >
+       <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+             驳回任务
+            </h4>
+         </div>
+         <div class="modal-body" id="modal_div_list">
+          
+           <form id="task_reject_form">
+         
+             <input type="hidden" name="rec_id">
+             原因<textarea style="width:200px;height:150px" name='remark'></textarea>
+               
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            
+            <button type="button"  class="btn  btn-primary" id="btn_reject"
+               >驳回
+            </button>
+         </div>
+      </div>
+  </div>
+</div>
+
+ <div class="modal fade" id="task_cancel_list" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true" >
+     <div class="modal-dialog"   >
+       <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+             取消任务
+            </h4>
+         </div>
+         <div class="modal-body" id="modal_div_list">
+          
+           <form id="task_cancel_form">
+         
+             <input type="hidden" name="rec_id">
+             原因<textarea style="width:200px;height:150px" name='remark'></textarea>
+               
+          </form>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-default" 
+               data-dismiss="modal">关闭
+            </button>
+            
+            <button type="button"  class="btn  btn-primary" id="btn_cancel"
+               >取消
+            </button>
+         </div>
+      </div>
+  </div>
+</div>
+
+	<div class="modal fade" id="chg_task_list" tabindex="-1" role="dialog" 
+   aria-labelledby="myModalLabel" aria-hidden="true"  >
+  	 <div class="modal-dialog" style="display: inline-block; width: auto;">
+     	 <div class="modal-content">
+         <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+            	修改任务
+            </h4>
+         </div>
+         <div class="modal-body" style="width:auto" >
+			<form id='task_chg_form'>
+	         	<input type="hidden" name="task_id"/>
+	         	<label>任务名称</label>
+	         	<input type='text' name='task_name'/>
+            <label>截止时间</label>
+            <input type='date' name='deadline'/>
+	         	<label>指派人</label>
+	         	<select name="assignors" class="selectpicker" multiple data-live-search="true">
+	         		{foreach $all_users as $v}
+	         			<option value={$v.id}>{$v.name}</option>
+	         		{/foreach}
+	         	</select><br/><hr/>
+	         	<label>任务内容:</label>
+	         	<textarea name='description' style="width:500px;height:200px"></textarea>
+	        </form> 
+   		</div>
+	    <div class="modal-footer">
+	        <button type="button" class="btn btn-default" 
+	           data-dismiss="modal">关闭
+	        </button>
+	        <button type="button" class="btn btn-primary" id="btn_chg_task">
+	           修改
+	        </button>
+	    </div>
+	 </div>
+   </div>
+</div>
+<div class="modal fade" id="task_new_list" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="display: inline-block; width: auto;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">新建任务</h4>
+      </div>
+      <div class="modal-body" style="width:auto;">
+        <form id="task_new_form">
+          <label for="">任务名称</label>
+          <input type="text" name="task_name">
+          <label>截止时间</label>
+          <input type='date' name='deadline'/>
+          <label for="">指派人</label>
+          <select name="assignors" class="selectpicker" multiple data-live-search="true">
+            {foreach $all_users as $v}
+              <option value="{$v.id}">{$v.name}</option>
+            {/foreach}
+          </select> <br/><hr/>
+          <label for="">任务内容</label>
+          <textarea name="description" style="width:500px;height:300px;"></textarea>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dafault" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="btn_task_new">新建任务</button>
+      </div>
+    </div>
+  </div>
+  
+</div>
+<!-- 添加备注 -->
+<div class="modal fade" id="add_remark_list" tabindex="-1" role="dialog" aria-lebelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">添加备注</h4>
+      </div>
+      <div class="modal-body">
+      <input type="hidden" name="task_id">
+        <table>
+          备注 <textarea name="remark" style="width:300px;height:150px;"></textarea>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btn_add_remark">添加</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="add_visit_file" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">上传回访单</h4>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="?controller=TaskController&act=addVisitFile" enctype="multipart/form-data">
+          <input type="hidden" name="task_id">
+          <div style="margin-bottom:5px;color:red;">请上传pdf格式的回访单</div>
+          <table>
+            <tr>
+              <td><input type="file" name="visit_file"></td>
+            </tr>
+          </table>
+          <input type="submit" value="上传">
+        </form>  
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" class="btn btn-primary" id="btn_add_file">上传</button> -->
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{literal}
+<script type="text/javascript">
+$(function(){
+   
+    $("#task_accept_list").on('show.bs.modal', function (){
+      var rec_id= $("#body_table_list ").find(".tr_selected").attr("data-id");
+      $("#task_accept_list").find("[name='rec_id']").val(rec_id);
+
+    });
+      $("#task_end_list").on('show.bs.modal', function (){
+      var rec_id= $("#body_table_list ").find(".tr_selected").attr("data-id");
+       var type= $("#body_table_list ").find(".tr_selected").attr("data-type");
+      $("#task_end_list").find("[name='rec_id']").val(rec_id);
+      $("#task_end_list").find("[name='type']").val(type);
+      if(type ==11){
+         $("#show_seller_account").show();
+       }else{
+           $("#show_seller_account").hide();
+       }
+
+    });
+      $("#task_reject_list").on('show.bs.modal', function (){
+      var rec_id= $("#body_table_list ").find(".tr_selected").attr("data-id");
+      $("#task_reject_list").find("[name='rec_id']").val(rec_id);
+
+    });
+      $("#task_cancel_list").on('show.bs.modal', function (){
+      var rec_id= $("#body_table_list ").find(".tr_selected").attr("data-id");
+      $("#task_cancel_list").find("[name='rec_id']").val(rec_id);
+
+    });
+    $("#chg_task_list").on('show.bs.modal', function (){
+      var rec_id= $("#body_table_list ").find(".tr_selected").attr("data-id");
+      $("#task_chg_form").find("[name='task_id']").val(rec_id);
+	  var url = "?controller=TaskController&act=getTaskById&rec_id="+rec_id;
+	  $.getJSON(url,function(data){
+		var assignor = new Array();
+		$("#task_chg_form").find("[name='task_name']").val(data.task_name);
+		$.each(data.assignors,function(i,datas){
+			assignor.push(datas);
+		});
+		$("#task_chg_form [class='selectpicker']").selectpicker('val',assignor);
+		$("#task_chg_form").find("[name='description']").val(data.description);
+	  });
+
+    });
+    $("#btn_accept").click(function(){
+      var remark =$("#task_accept_form").find("[name='remark']").val();
+      if(remark =="")
+      {
+        alert("描述不能为空");
+        return false;
+      }
+      var data = $("#task_accept_form").serialize();
+      var url ="?controller=TaskController&act=taskAccept";
+      $.post(url,data,function(result){
+        if(result ==true)
+        {
+          alert("已接受");
+          document.location.reload();
+        }
+        else
+        {
+          alert(result);
+        }
+      });
+    });
+    $("#btn_end").click(function(){
+      var remark =$("#task_end_form").find("[name='remark']").val();
+      if(remark =="")
+      {
+        alert("描述不能为空");
+        return false;
+      }
+      var data = $("#task_end_form").serialize();
+      var url ="?controller=TaskController&act=taskEnd";
+      $.post(url,data,function(result){
+        if(result ==true)
+        {
+          alert("已完成");
+          document.location.reload();
+        }
+        else
+        {
+          alert(result);
+        }
+      });
+    });
+  $("#btn_reject").click(function(){
+	var rec_id = $("#task_reject_form").find("[name='rec_id']").val();
+	var remark = $("#task_reject_form").find("[name='remark']").val();
+	if(rec_id == null || rec_id == ''){
+		alert('请选择要驳回的任务');
+		return false;
+	}
+	if(remark == ''){
+		alert('驳回原因不能为空');
+		return false;
+	}
+    var data = $("#task_reject_form").serialize();
+    var url ="?controller=TaskController&act=taskReject";
+	$.post(url,data,function(result){
+        if(result ==true){
+          alert("驳回成功");
+          document.location.reload();
+        }else{
+          alert(result);
+        }		
+	});
+  });
+ 
+  $("#btn_cancel").click(function(){
+	var rec_id = $("#task_cancel_form").find("[name='rec_id']").val();
+	var remark = $("#task_cancel_form").find("[name='remark']").val();
+	if(rec_id == null){
+		alert('请选择要取消的任务');
+		return false;
+	}
+	if(remark == ''){
+		alert('取消原因不能为空');
+		return false;
+	}
+    var data = $("#task_cancel_form").serialize();
+    var url ="?controller=TaskController&act=taskCancel";
+	$.post(url,data,function(result){
+        if(result ==true){
+          alert("已取消");
+          document.location.reload();
+        }else{
+          alert(result);
+        }		
+	});
+  }); 
+  $("#btn_chg_task").click(function(){
+	var task_id = $("#task_chg_form").find("[name='task_id']").val();
+  var deadline = $("#task_chg_form").find("[name='deadline']").val();
+	var task_name = $("#task_chg_form").find("[name='task_name']").val();
+	var assignors = $("#task_chg_form").find("[name='assignors']").val();
+	var description =$("#task_chg_form").find("[name='description']").val();
+	if(task_name =="")
+	{
+		alert("任务名称不能为空");
+		return false;
+	}
+  if(deadline==""){
+    alert('截止日期不能为空');
+    return false;
+  }
+	if(assignors =="" || assignors ==null)
+	{
+		alert("指派人不能为空");
+		return false;
+	}
+	if(description =="")
+	{
+		alert("任务描述不能为空");
+		return false;
+	}
+	//var data = $("#task_chg_form").serialize();
+	var url = "?controller=TaskController&act=taskChang&assignors="+assignors;
+	$.post(url,{task_id:task_id,deadline:deadline,task_name:task_name,description:description},function(result){
+		if(result == true){
+			alert('修改成功');
+			document.location.reload();
+		}else{
+			alert(result);
+		}
+	});
+  });
+  $(".resend_task").click(function(){
+	var task_id = $(this).parents('tr').attr('data-id');
+	var url = "?controller=TaskController&act=taskResend";
+	$.post(url,{task_id:task_id},function(result){
+		if(result == true){
+			alert('重新递交成功');
+			document.location.reload();
+		}else{
+			alert(result);
+		}
+	});
+  });
+
+  $("#btn_task_new").click(function(){
+    var task_name = $("#task_new_form").find("[name='task_name']").val();
+    var assignors = $("#task_new_form").find("[name='assignors']").val();
+    var description = $("#task_new_form").find("[name='description']").val();
+    var deadline = $("#task_new_form").find("[name='deadline']").val();
+    if(task_name =="")
+    {
+      alert("任务名称不能为空");
+      return false;
+    }
+    if(deadline==""){
+      alert('截止日期不能为空');
+      return false;
+    }
+    if(assignors =="" || assignors ==null)
+    {
+      alert("指派人不能为空");
+      return false;
+    }
+    if(description =="")
+    {
+      alert("任务描述不能为空");  
+      return false;
+    }
+    var url = "?controller=TaskController&act=addTask&assignors="+assignors;
+    $.post(url,{task_name:task_name,deadline:deadline,description:description,customer_id:0},function(result){
+      if(result==true){
+        alert('新建任务成功');
+        document.location.reload();
+      }else{
+        alert(result);
+        return;
+      }
+    });
+
+  });
+  $("#add_remark_list").on('show.bs.modal', function (){
+      var rec_id= $("#body_table_list ").find(".tr_selected").attr("data-id");
+      $("#add_remark_list").find("[name='task_id']").val(rec_id);
+    var url = "?controller=TaskController&act=getTaskById&rec_id="+rec_id;
+    $.getJSON(url,function(data){
+      console.log(data);
+      $("#add_remark_list [name='task_id']").val(data.task_id);
+    });
+  });
+
+  $("#btn_add_remark").click(function(){
+    var rec_id= $("#add_remark_list [name='task_id']").val();
+    var remark= $("#add_remark_list [name='remark']").val();
+    var url = "?controller=TaskController&act=addTaskRemark&rec_id="+rec_id;
+    $.post(url,{rec_id:rec_id,remark:remark},function(result){
+      if(result==true){
+        alert('添加备注成功');
+        $("#add_remark_list").modal('hide');
+      }else{
+        alert(result);
+      }
+    });
+  });
+
+  $(".add_file").click(function(){
+    var task_id = $(this).parents('tr').attr('data-id');
+    if(task_id==''||task_id==null){
+      alert('请选择要上传任务');
+      return false;
+    }
+    $("#add_visit_file [name='task_id']").val(task_id);
+  });
+  $(".show_file").click(function(){
+    var task_id = $(this).parents('tr').attr('data-id');
+    if(task_id==''||task_id==null){
+      alert('请选择要上传任务');
+      return false;
+    }
+    window.open("?controller=TaskController&act=showVisitFile&task_id="+task_id);
+  });
+
+
+});
+   
+</script>
+{/literal}
+   
+</body>
+</html>

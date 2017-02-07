@@ -1,0 +1,53 @@
+	.tr_selected
+  	{
+  		background-color:#51b2f6;
+  	}
+  	th{
+  		background:block;
+       min-width:20px;
+     
+    
+  
+  	}
+    tr {
+      max-height: 5px;
+    }
+  	body { 
+ 
+      padding-top: 70px; }
+    ul li
+  	{
+
+  	list-style-type:none;
+
+  	}
+
+   
+ 
+    table
+    {
+      font-size:12px;
+    }
+    input
+    {
+        width:140px;
+        height:29px;
+    }
+    select
+    {
+      width:120px;
+      height:29px;
+    }
+    /*
+   @media (max-width: @screen-xs-min) {
+    .modal-xs { width: @modal-sm; }
+   }*/
+  .modal-open {
+    overflow: scroll;
+  }
+  html,body {
+   height: 100%;
+  }
+ 
+   
+   

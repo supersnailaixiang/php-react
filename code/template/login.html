@@ -1,0 +1,71 @@
+ 
+{include file="header.html"}
+{literal}
+<style>
+.center {
+   
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+   
+}
+body {
+      background-color: #CCC;
+      
+   }
+  .form_color
+  {
+  	background-color:white;
+  }
+
+</style>
+<script type='text/javascript'>
+	function checkData()
+	{
+		var login_no = $("[name='login_no']").val();
+		var pwd = $("[name='pwd']").val();
+		if(login_no=="")
+		{
+			alert("登录名称不能为空");
+			return false;
+		}
+		if(pwd =="")
+		{
+			alert("登录密码不能为空");
+			return false;
+		}
+		return true;
+	}
+</script>
+{/literal}
+</head>
+<body>
+ 	 	<div class="container form_color center" >
+		<form  role="form" action="?controller=UserController&act=login" method="post" onsubmit="return CheckData();">
+			<div class="form-group col-md-2 col-md-offset-5 ">
+			 
+				<label class="control-label  ">登录 crm</label>
+		 
+			</div>
+			<div class="form-group col-md-6 col-md-offset-3 ">
+			 
+					<input type='text'  name="login_no" class="form-control   " placeholder="登录名称"></input>
+			 
+			</div>
+			<div class ="form-group col-md-6 col-md-offset-3 ">
+				 
+					<input type='password' name="pwd" class="form-control   " placeholder="密码"></input>
+				 
+			</div>
+			<div class ="form-group col-md-2 col-md-offset-5  ">
+						<button type="submit" class="btn btn-primary  ">立刻登录</button> 
+				 
+			</div>
+		 
+		</form>
+	  </div>
+	 
+ 
+</body>
+</html>
